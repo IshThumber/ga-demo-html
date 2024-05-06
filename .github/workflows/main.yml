@@ -20,8 +20,8 @@ jobs:
 
     - name: Remove default Nginx welcome page
       run: |
-          if ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "[[ -f /var/www/html/*.html ]]"; then
-            ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /var/www/html/html/*.html"
+          if ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "[[ -f /home/ubuntu/var/www/html/*.html ]]"; then
+            ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /home/ubuntu/var/www/html/*.html"
           fi
 
     - name: Copy HTML file to EC2
