@@ -10,22 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Remove default Nginx welcome page
-      run: |
+      - name: Remove default Nginx welcome page
+        run: |
           if ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "[[ -f /home/ubuntu/var/www/html/*.html ]]"; then
-            ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /home/ubuntu/var/www/html/*.html"
+            ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /home/ubuntu/var/www/html/*.html"
           fi
 
-    - name: Copy HTML file to EC2
-      run: scp -r ./index.html ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }}:/home/ubuntu/var/www/html
+      - name: Copy HTML file to EC2
+        run: scp -r ./index.html ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }}:/home/ubuntu/var/www/html
 
-    - name: Restart Nginx
-      run: ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
+      - name: Restart Nginx
+        run: ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
