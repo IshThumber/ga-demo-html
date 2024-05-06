@@ -19,10 +19,10 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Remove default Nginx welcome page
-      run: ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /var/www/html/index.nginx-debian.html"
+      run: ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /var/www/html/index.nginx-debian.html"
 
     - name: Copy HTML file to EC2
       run: scp -r ./index.html ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }}:/var/www/html
 
     - name: Restart Nginx
-      run: ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
+      run: ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
