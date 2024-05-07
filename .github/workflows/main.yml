@@ -18,15 +18,18 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: Remove default Nginx welcome page
-      #   run: |
-      #     if ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "[[ -f /home/ubuntu/var/www/html/*.html ]]"; then
-      #       ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo rm /home/ubuntu/var/www/html/*.html"
-      #     fi
+      - name: Remove existing code
+        run: |
+            if [ "ls | grep ga-demo-html" ]
+            then 
+              rm -rf ga-demo-html
+            fi
 
-      - name: Copy HTML file to EC2
-        # run: scp -r ./index.html ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }}:/home/ubuntu/var/www/html
-        run: echo "Hi"
+      - name: Cloning the code
+        run: git clone https://github.com/IshThumber/ga-demo-html.git
 
-      # - name: Restart Nginx
-      #   run: ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
+      - name: Check if www/html contains HTML file or not
+        run: sudo rm /home/ubuntu/var/www/html/*.html
+
+      - name: Change the location of HTML
+        run: sudo mv ga-demo-html/index.html /var/www/html/
