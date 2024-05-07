@@ -26,7 +26,7 @@ jobs:
 
       - name: Copy HTML file to EC2
         # run: scp -r ./index.html ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }}:/home/ubuntu/var/www/html
-        run: echo "Hi:
+        run: echo "Hi"
 
       # - name: Restart Nginx
       #   run: ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
