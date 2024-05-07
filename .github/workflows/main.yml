@@ -33,3 +33,6 @@ jobs:
 
       - name: Change the location of HTML
         run: sudo mv ga-demo-html/index.html /var/www/html/
+      
+      - name: Restart Nginx
+        run: ssh ${{ secrets.USER }}@${{ secrets.INSTANCE_HOST }} "sudo systemctl restart nginx"
