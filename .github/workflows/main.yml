@@ -29,7 +29,7 @@ jobs:
         run: git clone https://github.com/IshThumber/ga-demo-html.git
 
       - name: Check if www/html contains HTML file or not
-        run: sudo rm /home/ubuntu/var/www/html/*.html
+        run: sudo rm /var/www/html/*.html
 
       - name: Change the location of HTML
         run: sudo mv ga-demo-html/index.html /var/www/html/
