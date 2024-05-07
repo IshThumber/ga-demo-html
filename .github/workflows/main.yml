@@ -18,21 +18,21 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Remove existing code
+      - name: Remove existing github code
         run: |
             if [ "ls | grep ga-demo-html" ]
             then 
               rm -rf ga-demo-html
             fi
 
-      - name: Cloning the code
+      - name: Cloning the repo
         run: git clone https://github.com/IshThumber/ga-demo-html.git
 
-      - name: Check if www/html contains HTML file or not
+      - name: Remove html file if present in /var/www/html
         run: sudo rm /var/www/html/*.html
 
       - name: Change the location of HTML
         run: sudo mv ga-demo-html/index.html /var/www/html/
-      
+
       - name: Restart Nginx
         run: sudo systemctl restart nginx
