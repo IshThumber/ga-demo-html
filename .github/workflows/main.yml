@@ -22,7 +22,7 @@ jobs:
         run: |
             if [ "ls | grep ga-demo-html" ]
             then 
-              rm -rf ga-demo-html
+              sudo rm -rf ga-demo-html
             fi
 
       - name: Cloning the repo
