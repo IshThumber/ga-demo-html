@@ -26,7 +26,7 @@ jobs:
             fi
 
       - name: Cloning the repo
-        run: git clone https://github.com/IshThumber/ga-demo-html.git
+        run: sudo git clone https://github.com/IshThumber/ga-demo-html.git
 
       - name: Remove html file if present in /var/www/html
         run: sudo rm /var/www/html/*.html
@@ -34,5 +34,5 @@ jobs:
       - name: Change the location of HTML
         run: sudo mv ga-demo-html/index.html /var/www/html/
 
-      - name: Restart Nginx
+      - name: Restart Apache2
         run: sudo systemctl restart apache2
