@@ -13,32 +13,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: actions/checkout@v2 
+      - name: Build & Deploy
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            SSH_PRIVATE_KEY: ${{secrets.INSTANCE_HOST}}
+            USER: ${{secrets.USER}}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${INSTANCE_HOST} '
 
-      - name: hostname
-        run : echo "$(hostname -f)"
-        
+
+      - name : Hostname
+        run  : echo "$(hostname -f)"
+      
       - name: Crete
         run : sudo mkdir folder
         
-      - name: Remove existing github code
-        run: |
-            if [ "ls | grep ga-demo-html" ]
-            then 
-              sudo rm -rf ga-demo-html
-            fi
+      # - name: Remove existing github code
+      #   run: |
+      #       if [ "ls | grep ga-demo-html" ]
+      #       then 
+      #         sudo rm -rf ga-demo-html
+      #       fi
 
-      - name: Cloning the repo
-        run: sudo git clone https://github.com/IshThumber/ga-demo-html.git
+      # - name: Cloning the repo
+      #   run: sudo git clone https://github.com/IshThumber/ga-demo-html.git
 
-      - name: Remove html file if present in /var/www/html
-        run: sudo rm /var/www/html/*.html
+      # - name: Remove html file if present in /var/www/html
+      #   run: sudo rm /var/www/html/*.html
 
-      - name: Change the location of HTML
-        run: sudo mv ga-demo-html/index.html /var/www/html/
+      # - name: Change the location of HTML
+      #   run: sudo mv ga-demo-html/index.html /var/www/html/
 
-      - name: Restart Apache2
-        run: sudo systemctl restart apache2
+      # - name: Restart Apache2
+      #   run: sudo systemctl restart apache2
